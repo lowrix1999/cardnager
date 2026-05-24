@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cardnager — Demo</title>
+<style>
+/* #region CSS Styles */
+
+/* #section Base Variables */
+:root {
+    --bg-color: #000000;
+    --text-color: #e0e0e0;
+    --btn-bg: #1a1a1a;
+    --btn-hover: #8b0000;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: monospace;
+    text-align: center;
+    padding-top: 50px;
+}
+/* #endsection */
+
+/* #section Component Styles */
+.counter-app {
+    border: 1px solid #333;
+    padding: 20px;
+    border-radius: 4px;
+    display: inline-block;
+    background-color: #121212;
+}
+
+/* #segment Button Styles */
+button {
+    background: var(--btn-bg);
+    color: var(--text-color);
+    border: 1px solid #444;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.2s;
+}
+
+button:hover {
+    background: var(--btn-hover);
+}
+/* #endsegment */
+
+/* #endsection */
+
+/* #section Footer Styles */
+#app-footer {
+    margin-top: 50px;
+    font-size: 12px;
+    color: #444;
+}
+
+#app-footer p {
+    margin: 4px 0;
+}
+/* #endsection */
+
+/* #endregion */
+</style>
+</head>
+<body>
+
+<!-- #region HTML Structure -->
+
+<!-- #section Counter App -->
+<div class="counter-app">
+    <h1>System Counter</h1>
+    <h2 id="counter-value">0</h2>
+
+    <!-- #segment Controls -->
+    <div class="controls">
+        <button id="btn-dec">−</button>
+        <button id="btn-reset">Reset</button>
+        <button id="btn-inc">+</button>
+    </div>
+    <!-- #endsegment -->
+
+</div>
+<!-- #endsection -->
+
+<!-- #section App Footer -->
+<div id="app-footer">
+    <p>System Status: Online</p>
+    <p>Environment: Production</p>
+    <p>Data Source: Local</p>
+</div>
+<!-- #endsection -->
+
+<!-- #endregion -->
+
+<script>
+// #region JS Logic
+
+// #section Application State
+let currentCount = 0;
+
+const domElements = {
+    valueDisplay: document.getElementById('counter-value'),
+    btnInc:       document.getElementById('btn-inc'),
+    btnDec:       document.getElementById('btn-dec'),
+    btnReset:     document.getElementById('btn-reset')
+};
+// #endsection
+
+// #section Application Actions
+
+// #segment UI Update Logic
+function updateDisplay() {
+    if (domElements.valueDisplay) {
+        domElements.valueDisplay.innerText = currentCount;
+
+        if (currentCount > 0) {
+            domElements.valueDisplay.style.color = '#1b5e20';
+        } else if (currentCount < 0) {
+            domElements.valueDisplay.style.color = '#8b0000';
+        } else {
+            domElements.valueDisplay.style.color = '#e0e0e0';
+        }
+    }
+}
+// #endsegment
+
+// #segment Event Listeners
+function setupListeners() {
+    domElements.btnInc.addEventListener('click', () => {
+        currentCount++;
+        updateDisplay();
+    });
+
+    domElements.btnDec.addEventListener('click', () => {
+        currentCount--;
+        updateDisplay();
+    });
+
+    domElements.btnReset.addEventListener('click', () => {
+        currentCount = 0;
+        updateDisplay();
+    });
+}
+// #endsegment
+
+// #endsection
+
+// #section Initialization
+setupListeners();
+updateDisplay();
+// #endsection
+
+// #endregion
+</script>
+
+</body>
+</html>

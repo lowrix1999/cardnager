@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cardnager — Documentation</title>
+<style>
+/* #region CSS Styles */
+
+/* #section Variables & Reset */
+:root {
+    --bg-app:       #0a0a0a;
+    --bg-panel:     #111111;
+    --bg-card:      #181818;
+    --bg-input:     #0d0d0d;
+    --bg-code:      #0d0d0d;
+    --accent:       #c0392b;
+    --accent-hover: #e74c3c;
+    --accent-dim:   rgba(192, 57, 43, 0.15);
+    --accent-glow:  rgba(192, 57, 43, 0.08);
+    --green:        #27ae60;
+    --orange:       #d35400;
+    --blue:         #1a5276;
+    --grey:         #5d6d7e;
+    --text-primary: #e8e8e8;
+    --text-muted:   #555;
+    --text-dim:     #888;
+    --border:       #1e1e1e;
+    --border-light: #2a2a2a;
+    --font-ui:      'Segoe UI', sans-serif;
+    --font-mono:    'Consolas', monospace;
+    --sidebar-w:    260px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    background: var(--bg-app);
+    color: var(--text-primary);
+    font-family: var(--font-ui);
+    font-size: 13px;
+    line-height: 1.7;
+    display: flex;
+    min-height: 100vh;
+}
+/* #endsection */
+
+/* #section Sidebar */
+#sidebar {
+    width: var(--sidebar-w);
+    background: var(--bg-panel);
+    border-right: 1px solid var(--border);
+    position: fixed;
+    top: 0; left: 0;
+    height: 100vh;
+    overflow-y: auto;
+    flex-shrink: 0;
+    z-index: 100;
+}
+
+#sidebar::-webkit-scrollbar { width: 4px; }
+#sidebar::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
+
+.sidebar-logo {
+    padding: 20px 20px 16px 20px;
+    border-bottom: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--accent);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.sidebar-logo span {
+    display: block;
+    font-size: 9px;
+    color: var(--text-muted);
+    font-weight: normal;
+    letter-spacing: 0.5px;
+    margin-top: 3px;
+    text-transform: uppercase;
+}
+
+.sidebar-group { padding: 14px 0 4px 0; }
+
+.sidebar-group-label {
+    font-size: 9px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    padding: 0 20px 6px 20px;
+}
+
+.sidebar-link {
+    display: block;
+    padding: 7px 20px;
+    font-size: 12px;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: all 0.15s;
+    border-left: 2px solid transparent;
+    cursor: pointer;
+}
+
+.sidebar-link:hover {
+    color: var(--text-primary);
+    background: var(--bg-card);
+    border-left-color: var(--border-light);
+}
+
+.sidebar-link.active {
+    color: var(--accent);
+    border-left-color: var(--accent);
+    background: var(--accent-glow);
+}
+
+.sidebar-link.sub {
+    padding-left: 32px;
+    font-size: 11px;
+    color: var(--text-muted);
+}
+.sidebar-link.sub:hover { color: var(--text-dim); }
+/* #endsection */
+
+/* #section Main Content */
+#main {
+    margin-left: var(--sidebar-w);
+    flex: 1;
+    max-width: 860px;
+    padding: 48px 56px 120px 56px;
+}
+
+.doc-hero {
+    margin-bottom: 52px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+}
+
+.doc-hero-label {
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--accent);
+    margin-bottom: 12px;
+    font-family: var(--font-mono);
+}
+
+.doc-hero h1 {
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    margin-bottom: 14px;
+}
+
+.doc-hero p {
+    font-size: 14px;
+    color: var(--text-dim);
+    max-width: 560px;
+    line-height: 1.8;
+}
+
+.doc-section {
+    margin-bottom: 60px;
+    scroll-margin-top: 32px;
+}
+
+.doc-section h2 {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.doc-section h2 .section-icon {
+    font-size: 16px;
+    opacity: 0.7;
+}
+
+.doc-section .section-desc {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 22px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.doc-section h3 {
+    font-size: 13px;
+    font-weight: bold;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 24px 0 10px 0;
+    font-family: var(--font-mono);
+}
+
+.doc-section p {
+    color: var(--text-dim);
+    margin-bottom: 12px;
+    line-height: 1.8;
+}
+
+.doc-section ul, .doc-section ol {
+    padding-left: 20px;
+    margin-bottom: 14px;
+}
+
+.doc-section li {
+    color: var(--text-dim);
+    margin-bottom: 6px;
+    line-height: 1.7;
+}
+
+.doc-section li strong {
+    color: var(--text-primary);
+    font-weight: bold;
+}
+/* #endsection */
+
+/* #section Cards & Callouts */
+.feature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.feature-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 14px 16px;
+}
+
+.feature-card-label {
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    font-family: var(--font-mono);
+}
+
+.feature-card-value {
+    font-size: 13px;
+    color: var(--text-primary);
+    font-weight: bold;
+}
+
+.feature-card-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 4px;
+    line-height: 1.5;
+}
+
+.callout {
+    border-radius: 4px;
+    padding: 14px 16px;
+    margin: 16px 0;
+    font-size: 12px;
+    line-height: 1.7;
+    border-left: 3px solid;
+}
+
+.callout-tip {
+    background: rgba(39, 174, 96, 0.08);
+    border-color: var(--green);
+    color: #7dcea0;
+}
+
+.callout-warn {
+    background: rgba(211, 84, 0, 0.08);
+    border-color: var(--orange);
+    color: #e59866;
+}
+
+.callout-info {
+    background: rgba(26, 82, 118, 0.15);
+    border-color: #2980b9;
+    color: #7fb3d3;
+}
+
+.callout strong { color: #fff; }
+/* #endsection */
+
+/* #section Code Blocks */
+.code-block {
+    background: var(--bg-code);
+    border: 1px solid var(--border-light);
+    border-radius: 4px;
+    padding: 14px 16px;
+    margin: 12px 0;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.8;
+    overflow-x: auto;
+    white-space: pre;
+}
+
+.code-block .cm { color: #555; font-style: italic; }
+.code-block .mk { color: #c0392b; font-weight: bold; }
+.code-block .kw { color: #e67e22; }
+.code-block .st { color: #27ae60; }
+.code-block .nm { color: #3498db; }
+.code-block .pl { color: #9b59b6; }
+
+code {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    background: var(--bg-code);
+    border: 1px solid var(--border-light);
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: #e67e22;
+}
+/* #endsection */
+
+/* #section Block Type Labels */
+.block-type {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    margin-right: 6px;
+    margin-bottom: 6px;
+}
+
+.bt-region   { background: #c0392b; color: #fff; }
+.bt-section  { background: #d35400; color: #fff; }
+.bt-segment  { background: #5d6d7e; color: #fff; }
+.bt-fragment { background: #1a3a5c; color: #7fb3d3; border: 1px solid #1a5276; }
+
+.hierarchy-diagram {
+    background: var(--bg-code);
+    border: 1px solid var(--border-light);
+    border-radius: 4px;
+    padding: 20px 24px;
+    margin: 16px 0;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 2;
+}
+
+.hd-r { color: #c0392b; font-weight: bold; }
+.hd-s { color: #d35400; font-weight: bold; }
+.hd-g { color: #7f8c8d; font-weight: bold; }
+.hd-f { color: #3498db; }
+.hd-dim { color: #444; }
+/* #endsection */
+
+/* #section Shortcut Table */
+.shortcut-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 12px;
+}
+
+.shortcut-table th {
+    text-align: left;
+    padding: 8px 12px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border-light);
+    font-family: var(--font-mono);
+}
+
+.shortcut-table td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-dim);
+    vertical-align: middle;
+}
+
+.shortcut-table tr:last-child td { border-bottom: none; }
+.shortcut-table tr:hover td { background: var(--bg-card); }
+
+.kbd {
+    display: inline-block;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-bottom: 2px solid #333;
+    border-radius: 3px;
+    padding: 1px 7px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-primary);
+    white-space: nowrap;
+}
+/* #endsection */
+
+/* #section Syntax Tables */
+.syntax-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 12px;
+}
+
+.syntax-table th {
+    text-align: left;
+    padding: 8px 12px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border-light);
+    background: var(--bg-code);
+}
+
+.syntax-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-dim);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    vertical-align: top;
+}
+
+.syntax-table td:first-child { color: var(--text-muted); font-style: italic; font-family: var(--font-ui); }
+.syntax-table td .mk { color: #c0392b; font-weight: bold; }
+.syntax-table tr:last-child td { border-bottom: none; }
+/* #endsection */
+
+/* #section Dividers & Misc */
+.section-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 48px 0;
+}
+
+.tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 10px 0;
+}
+
+.step-list { counter-reset: steps; padding: 0; list-style: none; margin-bottom: 16px; }
+.step-list li {
+    counter-increment: steps;
+    display: flex;
+    gap: 12px;
+    margin-bottom: 10px;
+    align-items: flex-start;
+}
+.step-list li::before {
+    content: counter(steps);
+    background: var(--accent);
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    font-family: var(--font-mono);
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+/* #endsection */
+
+/* #endregion */
+</style>
+</head>
+<body>
+
+<!-- #region HTML Structure -->
+
+<!-- #section Sidebar Navigation -->
+<nav id="sidebar">
+    <div class="sidebar-logo">
+        Cardnager
+        <span>Full Feature Documentation</span>
+    </div>
+
+    <div class="sidebar-group">
+        <div class="sidebar-group-label">Getting Started</div>
+        <a class="sidebar-link" href="#what-is-cardnager">What is Cardnager?</a>
+        <a class="sidebar-link" href="#recent-files">Recent Files</a>
+        <a class="sidebar-link" href="#block-syntax">Block Marker Syntax</a>
+        <a class="sidebar-link sub" href="#syntax-js">JavaScript</a>
+        <a class="sidebar-link sub" href="#syntax-css">CSS</a>
+        <a class="sidebar-link sub" href="#syntax-html">HTML</a>
+        <a class="sidebar-link sub" href="#syntax-other">Other Languages</a>
+        <a class="sidebar-link" href="#hierarchy">Card Hierarchy</a>
+    </div>
+
+    <div class="sidebar-group">
+        <div class="sidebar-group-label">Core Features</div>
+        <a class="sidebar-link" href="#files">Opening Files</a>
+        <a class="sidebar-link" href="#tabs">Tab Management</a>
+        <a class="sidebar-link" href="#cards">Working With Cards</a>
+        <a class="sidebar-link" href="#duplicate-warning">Duplicate Name Warning</a>
+        <a class="sidebar-link" href="#copy-paste">Copy & Paste</a>
+        <a class="sidebar-link" href="#save">Saving & Backups</a>
+        <a class="sidebar-link" href="#undo-redo">Undo & Redo</a>
+    </div>
+
+    <div class="sidebar-group">
+        <div class="sidebar-group-label">Navigation & Search</div>
+        <a class="sidebar-link" href="#search">Search System</a>
+        <a class="sidebar-link" href="#fold">Fold Controls</a>
+        <a class="sidebar-link" href="#overview">Overview</a>
+        <a class="sidebar-link" href="#pinned">Pinned Sidebar</a>
+        <a class="sidebar-link" href="#raw">Raw View</a>
+    </div>
+
+    <div class="sidebar-group">
+        <div class="sidebar-group-label">Safety & Integrity</div>
+        <a class="sidebar-link" href="#safety">Safety Overview</a>
+        <a class="sidebar-link sub" href="#safety-paste">Paste Checks</a>
+        <a class="sidebar-link sub" href="#safety-duplicate">Duplicate Names</a>
+        <a class="sidebar-link sub" href="#safety-backups">Automatic Backups</a>
+        <a class="sidebar-link sub" href="#safety-undo">Undo Protection</a>
+        <a class="sidebar-link sub" href="#safety-confirmations">Confirmations</a>
+        <a class="sidebar-link sub" href="#safety-unsaved">Unsaved Changes</a>
+    </div>
+
+    <div class="sidebar-group">
+        <div class="sidebar-group-label">Tools</div>
+        <a class="sidebar-link" href="#code-ops">Code Ops</a>
+        <a class="sidebar-link" href="#ai-prompts">AI Prompts</a>
+        <a class="sidebar-link" href="#terminal">Terminal Launcher</a>
+    </div>
+
+    <div class="sidebar-group">
+        <div class="sidebar-group-label">Customization</div>
+        <a class="sidebar-link" href="#settings">Theme & Colors</a>
+        <a class="sidebar-link" href="#typography">Typography</a>
+        <a class="sidebar-link" href="#status-bar">Status Bar</a>
+    </div>
+
+    <div class="sidebar-group">
+        <div class="sidebar-group-label">Reference</div>
+        <a class="sidebar-link" href="#shortcuts">Keyboard Shortcuts</a>
+        <a class="sidebar-link" href="#menus">App Menu Reference</a>
+    </div>
+</nav>
+<!-- #endsection -->
+
+<!-- #section Main Content -->
+<main id="main">
+
+    <!-- #segment Hero -->
+    <div class="doc-hero">
+        <div class="doc-hero-label">Documentation · v1.0</div>
+        <h1>Cardnager</h1>
+        <p>A code editing command center built for AI-assisted development. Treats your code like Lego bricks — every named block becomes a collapsible card you can copy, paste, navigate, and manage without ever scrolling through a raw file.</p>
+    </div>
+    <!-- #endsegment -->
+
+    <!-- #segment What Is Cardnager -->
+    <div class="doc-section" id="what-is-cardnager">
+        <h2><span class="section-icon">⬡</span> What is Cardnager?</h2>
+        <p class="section-desc">The core idea behind the app and why it exists.</p>
+
+        <p>When you work with AI to write code, the AI gives you blocks — a function, a style section, a component. The problem is that your file is one long scroll. Finding the right place to paste, checking what's already there, and keeping track of what changed is slow and error-prone.</p>
+
+        <p>Cardnager solves this by parsing your file and turning every named block into a visual card. Each card shows the block's name, type, line count, and line range. You expand a card to see its code, and you paste directly into it — the app handles updating the file correctly.</p>
+
+        <div class="callout callout-info">
+            <strong>The golden rule:</strong> Cardnager only works with files that use block markers. Before you use the app, your code needs to be structured with region, section, and segment comments. The AI Prompts feature helps you set this up automatically.
+        </div>
+    </div>
+    <!-- #endsegment -->
+
+    <!-- #segment Recent Files -->
+    <div class="doc-section" id="recent-files">
+        <h2><span class="section-icon">🕓</span> Recent Files</h2>
+        <p class="section-desc">Quickly reopen files you have worked on before.</p>
+
+        <p>When Cardnager launches with no files open, or when you close all tabs, the Recent Files screen appears automatically. It lists the last 20 files you opened, sorted by most recently opened first. Each entry shows the file name, its full path, and when it was last opened.</p>
+
+        <h3>Opening a Recent File</h3>
+        <p>Click any file in the list to open it immediately. You can also double-click the entry. The file is added to a new tab and the recent files screen closes.</p>
+
+        <h3>Opening Multiple Recent Files</h3>
+        <p>Tick the checkboxes on the left of each entry to select multiple files, then click <strong>Open Selected</strong> to open them all at once, each in its own tab.</p>
+
+        <h3>Removing Entries</h3>
+        <p>Click the <strong>✕</strong> button on any entry to remove it from the list without opening it. Use <strong>Clear All</strong> to wipe the entire history. Files that no longer exist on disk are removed from the list automatically the next time the screen loads.</p>
+
+        <h3>Last Opened Time</h3>
+        <p>The timestamp shown on each entry reflects the last time you opened that file in Cardnager — either manually from the file picker, from the recent files list, or via session restore on startup. The time is displayed as a relative string such as <em>5 mins ago</em>, <em>3 days ago</em>, or <em>2 weeks ago</em>.</p>
+
+        <div class="callout callout-info">
+            <strong>Session restore counts as an open.</strong> When Cardnager starts and restores your previous tabs automatically, all restored files have their timestamp updated to the current time. This keeps the recent files list accurate to when you actually last used each file.
+        </div>
+    </div>
+    <!-- #endsegment -->
+
+    <!-- #segment Block Syntax -->
+    <div class="doc-section" id="block-syntax">
+        <h2><span class="section-icon">⌗</span> Block Marker Syntax</h2>
+        <p class="section-desc">How to mark up your code so Cardnager can parse it into cards.</p>
+
+        <p>Every block needs an opening marker and a closing marker. The format depends on the language you're writing. Block names are the permanent identity of every block — use short, descriptive names. Never use numbers in names.</p>
+
+        <div class="callout callout-warn">
+            <strong>Always use names, never numbers.</strong> Cardnager shows numbered badges on cards (REGION 1, SECTION 2 etc.) but these are display-only and change automatically when blocks are added or removed. Always refer to a block by its exact name.
+        </div>
+
+        <h3 id="syntax-js">JavaScript / TypeScript</h3>
+        <div class="code-block"><span class="mk">// #region</span> <span class="nm">Application Logic</span>
+
+<span class="mk">// #section</span> <span class="nm">Tab Management</span>
+
+<span class="mk">// #segment</span> <span class="nm">Open & Close</span>
+<span class="kw">function</span> <span class="nm">openTab</span>() { ... }
+<span class="mk">// #endsegment</span>
+
+<span class="mk">// #endsection</span>
+
+<span class="mk">// #endregion</span></div>
+
+        <h3 id="syntax-css">CSS / SCSS</h3>
+        <div class="code-block"><span class="mk">/* #region</span> <span class="nm">Application Styles</span> <span class="mk">*/</span>
+
+<span class="mk">/* #section</span> <span class="nm">Header & Navigation</span> <span class="mk">*/</span>
+<span class="nm">#header</span> { ... }
+
+<span class="mk">/* #segment</span> <span class="nm">Button Styles</span> <span class="mk">*/</span>
+.btn { ... }
+<span class="mk">/* #endsegment */</span>
+
+<span class="mk">/* #endsection */</span>
+
+<span class="mk">/* #endregion */</span></div>
+
+        <h3 id="syntax-html">HTML</h3>
+        <div class="code-block"><span class="mk">&lt;!-- #region</span> <span class="nm">User Interface</span> <span class="mk">--&gt;</span>
+
+<span class="mk">&lt;!-- #section</span> <span class="nm">Header Toolbar</span> <span class="mk">--&gt;</span>
+&lt;div id="header"&gt; ... &lt;/div&gt;
+<span class="mk">&lt;!-- #endsection --&gt;</span>
+
+<span class="mk">&lt;!-- #endregion --&gt;</span></div>
+
+        <h3 id="syntax-other">Other Languages</h3>
+        <div class="syntax-table-wrapper">
+        <table class="syntax-table">
+            <thead>
+                <tr>
+                    <th>Language</th>
+                    <th>Opening Marker</th>
+                    <th>Closing Marker</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Python</td>
+                    <td><span class="mk"># #region</span> Name</td>
+                    <td><span class="mk"># #endregion</span></td>
+                </tr>
+                <tr>
+                    <td>C#</td>
+                    <td><span class="mk">// #region</span> Name</td>
+                    <td><span class="mk">// #endregion</span></td>
+                </tr>
+                <tr>
+                    <td>SQL</td>
+                    <td><span class="mk">-- #region</span> Name</td>
+                    <td><span class="mk">-- #endregion</span></td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+
+        <p>The same pattern applies to <code>#section</code> / <code>#endsection</code> and <code>#segment</code> / <code>#endsegment</code> in every language.</p>
+    </div>
+    <!-- #endsegment -->
+
+    <!-- #segment Hierarchy -->
+    <div class="doc-section" id="hierarchy">
+        <h2><span class="section-icon">◈</span> Card Hierarchy</h2>
+        <p class="section-desc">The four card types and how they nest inside each other.</p>
+
+        <div class="tag-row">
+            <span class="block-type bt-region">Region</span>
+            <span class="block-type bt-section">Section</span>
+            <span class="block-type bt-segment">Segment</span>
+            <span class="block-type bt-fragment">Fragment</span>
+        </div>
+
+        <div class="hierarchy-diagram">
+<span class="hd-r">REGION</span>  <span class="hd-dim">——</span> Top-level group. A major area of your file.
+<span class="hd-dim">  │</span>
+<span class="hd-dim">  ├──</span> <span class="hd-s">SECTION</span>  <span class="hd-dim">——</span> Mid-level group. A class, a feature, a panel.
+<span class="hd-dim">  │     │</span>
+<span class="hd-dim">  │     ├──</span> <span class="hd-g">SEGMENT</span>  <span class="hd-dim">——</span> Small unit. One function or block of logic.
+<span class="hd-dim">  │     │</span>
+<span class="hd-dim">  │     └──</span> <span class="hd-f">FRAGMENT</span> <span class="hd-dim">——</span> FRAGMENT —— Unmarked code (6+ lines) caught between named blocks.
+<span class="hd-dim">  │</span>
+<span class="hd-dim">  └──</span> <span class="hd-s">SECTION</span>  <span class="hd-dim">——</span> Another section in the same region.</div>
+
+        <h3>Fragments</h3>
+        <p>Fragments are created automatically. Any code that sits between named blocks but has no markers of its own becomes a Fragment card. Short fragments (5 lines or less) display as naked inline code with no card header. Longer fragments show as a collapsible Fragment card with the first line as its title.</p>
+
+        <div class="callout callout-tip">
+            <strong>Tip:</strong> Aim to wrap everything in named blocks. The fewer stray fragments you have, the cleaner and more navigable your file becomes.
+        </div>
+    </div>
+    <!-- #endsegment -->
+
+    <div class="section-divider"></div>
+
+    <!-- #segment Files -->
+    <div class="doc-section" id="files">
+        <h2><span class="section-icon">📁</span> Opening Files</h2>
+        <p class="section-desc">Three ways to open files in Cardnager.</p>
+
+        <h3>Recent Files Screen</h3>
+        <p>Every time you launch the app with no files open, the Recent Files screen appears. It lists the last 20 files you worked on, sorted by most recent. You can click any file to open it, double-click to open it immediately, or select multiple files with checkboxes and open them all at once.</p>
+
+        <h3>Browse Files</h3>
+        <p>Click the <code>+</code> button in the tab bar, or go to <strong>File → Open File</strong>, or press <span class="kbd">Ctrl+O</span>. The native file dialog opens and supports multi-file selection — hold Ctrl to select several files at once.</p>
+
+        <h3>Drag & Drop</h3>
+        <p>On the Recent Files screen, drag any file from your file explorer and drop it onto the drop zone at the bottom. Multiple files can be dropped at once.</p>
+
+        <div class="callout callout-info">
+            <strong>Session restore:</strong> When you close Cardnager with files open, it remembers which files were open and restores them automatically on the next launch.
+        </div>
+    </div>
+    <!-- #endsegment -->
+
+    <!-- #segment Tabs -->
+    <div class="doc-section" id="tabs">
+        <h2><span class="section-icon">◫</span> Tab Management</h2>
+        <p class="section-desc">Work with multiple files simultaneously using the tab bar.</p>
+
+        <p>Each open file gets its own tab at the top of the window. Click a tab to switch to it. The app remembers scroll position and expanded cards separately for each tab.</p>
+
+        <ul>
+            <li><strong>Unsaved indicator:</strong> A tab with unsaved changes shows an asterisk (*) in its title and the Save button turns orange.</li>
+            <li><strong>Closing a tab:</strong> Click the × on the tab. If the file has unsaved changes, a confirmation dialog appears before closing.</li>
+            <li><strong>New tab:</strong> Press <span class="kbd">Ctrl+N</span> or use <strong>File → New Tab</strong> to create a blank untitled file.</li>
+        </ul>
+
+        <div class="callout callout-warn">
+            <strong>On close:</strong> If you try to quit the app with unsaved files, Cardnager intercepts the close and asks you to confirm. Your work is never silently lost.
+        </div>
+    </div>
+    <!-- #endsegment -->
+
+    <!-- #segment Cards -->
+    <div class="doc-section" id="cards">
+        <h2><span class="section-icon">▣</span> Working With Cards</h2>
+        <p class="section-desc">How to expand, collapse, edit, and interact with cards.</p>
+
+        <h3>Expanding & Collapsing</h3>
+        <p>Click anywhere on a card header to expand or collapse it. When a card has child cards inside (for example, a Region containing Sections), expanding it reveals the children. Expanding a leaf card (one with no children) reveals the code editor directly.</p>
+
+        <h3>Editing Code</h3>
+        <p>Expand any leaf card to reveal a code editor. Click inside and start typing. The editor auto-resizes as you type. Changes are tracked immediately — the Save button activates as soon as you make any edit.</p>
+
+        <h3>Line Numbers</h3>
+        <p>Every editor shows real file line numbers on the left, not relative numbers. These update live as you edit and as other blocks above shift.</p>
+
+        <h3>The Card Menu ⋮</h3>
+        <p>Every card header has a three-dot menu button on the right. Click it to access:</p>
+        <ul>
+            <li><strong>Pin / Unpin:</strong> Add or remove the card from the Pinned Sidebar.</li>
+            <li><strong>Add Region / Section / Segment Above:</strong> Insert a new empty block directly above this card. Only valid block types for the current position are enabled.</li>
+            <li><strong>Add Region / Section / Segment Below:</strong> Insert a new empty block directly below this card.</li>
+            <li><strong>Delete Block:</strong> Remove this block and all its contents from the file. A confirmation dialog appears first.</li>
+        </ul>
+
+        <div class="callout callout-tip">
+            <strong>Strict hierarchy rules:</strong> The menu only enables Add options that make structural sense. You cannot add a Region inside a Segment, for example. Invalid options appear greyed out.
+        </div>
+
+        <h3>Refresh ↻</h3>
+        <p>The <strong>↻</strong> button in the toolbar re-renders the entire card tree from the current in-memory file content. Use it if the display ever looks out of sync after a heavy paste, undo, or structural operation. It does not reload the file from disk — it re-parses what is already loaded. The button plays a brief spin animation to confirm it fired.</p>
+
+        <h3>Sticky Headers</h3>
+        <p>When you scroll through a large expanded card, its header sticks to the top of the viewport so you always know which block you are reading. The deepest active card wins the sticky position.</p>
+    </div>
+    <!-- #endsegment -->
+
+    <!-- #segment Duplicate Warning -->
+    <div class="doc-section" id="duplicate-warning">
+        <h2><span class="section-icon">⚠</span> Duplicate Name Warning</h2>
+        <p class="section-desc">Automatic detection of blocks that share the same name.</p>
+
+        <p>Every block name in a file must be unique. Duplicate names confuse the parser, break Code Ops matching, and cause unpredictable behaviour when pasting. Cardnager watches for this automatically.</p>
+
+        <h3>When It Triggers</h3>
+        <p>The duplicate warning bar appears at the top of the card list in two situations:</p>
+        <ul>
+            <li><strong>On file open</strong> — every time a file is loaded or a tab is switched to, the entire block tree is scanned for name collisions.</li>
+            <li><strong>On refresh</strong> — every time you click the ↻ Refresh button, the scan runs again on the current content.</li>
+        </ul>
+
+        <h3>What It Shows</h3>
+        <p>The orange bar displays a summary line such as <em>"⚠ 4 blocks share 2 duplicate names"</em> followed by a row of pills, one per duplicate name. Each pill shows the name and how many times it appears — for example <code>"App Init" ×2</code>. Hovering a pill shows a tooltip with the block type (region, section, or segment).</p>
+
+        <div class="callout callout-warn">
+            <strong>Fix duplicates before doing any Code Ops work.</strong> If two blocks share a name, a scan may match the wrong one and apply changes to the incorrect location.
+        </div>
+
+        <h3>Dismissing the Warning</h3>
+        <p>Click the <strong>✕</strong> button on the right of the bar to dismiss it for the current session. It will reappear the next time the file is opened or refreshed if duplicates still exist.</p>
+
+        <h3>Fixing a Duplicate</h3>
+        <p>Expand the card whose name you want to change. Edit the marker comment directly in the code editor — for example change <code>// #region App Init</code> to <code>// #region App Ready</code> — then click ↻ Refresh. If the collision is resolved, the warning bar disappears automatically.</p>
+
+        <h3>Paste-Time Check</h3>
+        <p>In addition to the bar, a separate duplicate check runs every time you use the <strong>PASTE</strong> button on a card. If the incoming block has the same name as an existing block elsewhere in the file, a native confirmation dialog appears before anything is written, giving you the option to cancel.</p>
+    </div>
+    <!-- #endsegment -->
+
+    <!-- #segment Copy Paste -->
+    <div class="doc-section" id="copy-paste">
+        <h2><span class="section-icon">⧉</span> Copy & Paste</h2>
+        <p class="section-desc">The core workflow — getting AI code into the right block.</p>
+
+        <h3>Copy Button</h3>
+        <p>Every card has a <code>COPY</code> button. Clicking it copies the entire block — including its markers and all child content — to your clipboard. The button flashes green to confirm.</p>
+
+        <h3>Paste Button</h3>
+        <p>Every card also has a <code>PASTE</code> button. This is the main way to update a block with new AI-generated code. When you click Paste, Cardnager runs four safety checks before writing anything:</p>
+
+        <ol class="step-list">
+            <li><strong>Identity check.</strong> If the clipboard content is identical to what's already in the block, the paste is silently skipped. No pointless overwrites.</li>
+            <li><strong>Mismatch check.</strong> If you paste a Section into a Region, or raw code into a structured block, a warning dialog explains the issue and asks you to confirm.</li>
+            <li><strong>Duplicate check.</strong> If a block with the same name already exists elsewhere in the file, you are warned. Duplicate names break the parser.</li>
+            <li><strong>Hierarchy check.</strong> If the pasted block type would violate the nesting rules (e.g. pasting a Region inside a Segment), a warning appears before anything is written.</li>
+        </ol>
+
+        <p>If all checks pass, the block is replaced and the file is updated. The card flashes green and the view scrolls to keep the pasted card in position.</p>
+
+        <div class="callout callout-info">
+            <strong>Structural vs surgical paste:</strong> If the content you are pasting contains no block markers, Cardnager uses a fast surgical path — it updates just that block's lines without rebuilding the entire card tree, which is much faster for large files.
+        </div>
+    </div>
+    <!-- #endsegment -->
+
+    <!-- #segment Save -->
+    <div class="doc-section" id="save">
+        <h2><span class="section-icon">💾</span> Saving & Backups</h2>
+        <p class="section-desc">How saving works and where backups go.</p>
+
+        <h3>Save</h3>
+        <p>Press <span class="kbd">Ctrl+S</span> or click the orange <strong>SAVE*</strong> button. Before writing, Cardnager cleans up triple blank lines automatically. After a successful save, the button flashes green and the tab title loses its asterisk.</p>
+
+        <h3>Save As</h3>
+        <p>Use <strong>File → Save As</strong> or press <span class="kbd">Ctrl+Shift+S</span> to save the current file to a new path and name.</p>
+
+        <h3>Save All</h3>
+        <p>Use <strong>File → Save All</strong> to save every dirty tab at once.</p>
+
+        <h3>Automatic Backups</h3>
+        <p>Every time you save, Cardnager automatically creates a timestamped backup of the previous version. Backups are stored in a <code>_backups</code> folder inside the same directory as your file.</p>
+
+        <div class="code-block"><span class="cm">Backup filename format:</span>
+<span class="nm">filename</span>_BACKUP_<span class="st">2026-01-30</span>_<span class="st">14-30-05</span>.ext</div>
+
+        <h3>Restoring a Backup</h3>
+        <p>Go to <strong>Settings → Restore Backup</strong>. A modal lists all backups for the currently active file, sorted newest first with timestamps and file sizes. Click <strong>RESTORE</strong> on any backup to load it into the editor. A confirmation dialog warns you that this overwrites your current content. The restore is also added to the undo stack, so you can press <span class="kbd">Ctrl+Z</span> to undo a mistaken restore.</p>
+
+        <div class="callout callout-warn">
+            <strong>Restore Backup</strong> is greyed out in the menu if the current file has no <code>_backups</code> folder yet.
+        </div>
+    </div>
+    <!-- #endsegment -->
+
+    <!-- #segment Undo Redo -->
+    <div class="doc-section" id="undo-redo">
+        <h2><span class="section-icon">↩</span> Undo & Redo</h2>
+        <p class="section-desc">Structural undo that tracks block-level operations, not single keystrokes.</p>
+
+        <p>The ↩ and ↪ buttons in the toolbar control Cardnager's structural history. This is separate from native textarea undo — it snapshots the entire file content before major operations like paste, delete, add block, and replace.</p>
+
+        <ul>
+            <li><strong>Undo:</strong> <span class="kbd">Ctrl+Z</span> or click ↩ — rolls back to the last snapshot.</li>
+            <li><strong>Redo:</strong> <span class="kbd">Ctrl+Y</span> or click ↪ — re-applies the rolled-back change.</li>
+        </ul>
+
+        <div class="callout callout-info">
+            The undo stack holds up to 50 snapshots per tab. Native textarea undo (<span class="kbd">Ctrl+Z</span> while typing inside a code editor) still works independently for fine-grained edits within a single block.
+        </div>
+    </div>
+    <!-- #endsegment -->
+
+    <div class="section-divider"></div>
+
+    <!-- #segment Search -->
+    <div class="doc-section" id="search">
+        <h2><span class="section-icon">⌕</span> Search System</h2>
+        <p class="section-desc">Find blocks by title or search through code content.</p>
+
+        <h3>Search by Title</h3>
+        <p>Select <strong>By Title</strong> in the dropdown next to the search box. As you type, all cards whose names do not match the query are hidden. Parent cards that contain a match are automatically expanded and kept visible. This is the fastest way to jump to a specific block by name.</p>
+
+        <h3>Search by Code</h3>
+        <p>Select <strong>By Code</strong> to search the actual content of every code block. All matches across all blocks are collected and counted. Use the ▲ and ▼ navigation buttons to jump between matches one by one — the app expands the containing cards and scrolls to each match automatically.</p>
+
+        <h3>Replace</h3>
+        <p>When a code search returns results, a <strong>Replace</strong> button appears next to the nav buttons. Click it to open the replace panel, which offers two options:</p>
+        <ul>
+            <li><strong>Paste Clipboard:</strong> Replaces all matches with whatever is currently on your clipboard.</li>
+            <li><strong>Type text:</strong> Type a replacement string manually and click GO.</li>
+        </ul>
+
+        <div class="callout callout-warn">
+            Replace affects all matches across all open cards at once. Use it carefully. It is undoable via <span class="kbd">Ctrl+Z</span>.
+        </div>
+    </div>
+    <!-- #endsegment -->
+
+    <!-- #segment Fold -->
+    <div class="doc-section" id="fold">
+        <h2><span class="section-icon">⊞</span> Fold Controls</h2>
+        <p class="section-desc">Collapse or expand every card in the file at once.</p>
+
+        <p>The ▼ and ▲ buttons in the toolbar control all cards globally.</p>
+
+        <ul>
+            <li><strong>▼ Expand All:</strong> Opens every card at every level so all code is visible.</li>
+            <li><strong>▲ Collapse All:</strong> Closes every card so you see only the top-level summary view.</li>
+        </ul>
+
+        <p>The same actions are available under <strong>View → Expand All Blocks</strong> and <strong>View → Collapse All Blocks</strong>.</p>
+    </div>
+    <!-- #endsegment -->
+
+    <!-- #segment Overview -->
+    <div class="doc-section" id="overview">
+        <h2><span class="section-icon">⊟</span> Overview</h2>
+        <p class="section-desc">A bird's-eye view of your entire file structure.</p>
+
+        <p>Click the <strong>OVERVIEW</strong> button in the toolbar to open an overlay showing every Region, Section, and Segment as a small card arranged in columns — one column per Region. Each card shows its type, name, and line count.</p>
+
+        <h3>Navigation</h3>
+        <p>Click any card in the overview to close the overview and jump directly to that block in the main view. The target block is highlighted with a blue glow on arrival.</p>
+
+        <h3>Zoom</h3>
+        <p>Scroll the mouse wheel while hovering over the overview to zoom in and out. Zoom is centered on the mouse position. The current zoom level is shown in the top bar.</p>
+
+        <h3>Pan</h3>
+        <p>Hold the middle mouse button and drag to pan the overview canvas freely.</p>
+
+        <h3>Tooltips</h3>
+        <p>Hover over any overview card to see a tooltip with the block's full name, type label, line count, and line range.</p>
+
+        <p>Press <span class="kbd">Esc</span> or click the ✕ button to close the overview.</p>
+    </div>
+    <!-- #endsegment -->
+
+    <!-- #segment Pinned -->
+    <div class="doc-section" id="pinned">
+        <h2><span class="section-icon">📌</span> Pinned Sidebar</h2>
+        <p class="section-desc">Keep your most-used blocks one click away at all times.</p>
+
+        <p>Any card can be pinned to a persistent sidebar on the right side of the app. Pinned cards stay visible while you scroll through the rest of your file — useful for keeping a reference block, a constants section, or a frequently edited function always accessible.</p>
+
+        <h3>Pinning a Card</h3>
+        <p>Open the card's <strong>⋮ menu</strong> and click <strong>📌 Pin</strong>. The sidebar appears and the card is added to it.</p>
+
+        <h3>Jumping to a Pinned Card</h3>
+        <p>Click any card in the sidebar to instantly scroll the main view to that card. If the card is inside a collapsed parent, all parent cards are expanded automatically before scrolling.</p>
+
+        <h3>Unpinning</h3>
+        <p>Click the 🗑 button on any pinned card, or open the card's ⋮ menu and click <strong>📌 Unpin</strong>. When the last pinned card is removed, the sidebar closes automatically.</p>
+
+        <h3>Resizing the Sidebar</h3>
+        <p>Drag the thin vertical handle between the main content and the sidebar to resize it. The width is saved and restored between sessions.</p>
+
+        <div class="callout callout-info">
+            <strong>Per-tab pins:</strong> Pinned cards are stored per file. Switching tabs shows the pins for that tab. Pins are saved to your session config and restored on next launch.
+        </div>
+    </div>
+    <!-- #endsegment -->
+
+    <!-- #segment Raw View -->
+    <div class="doc-section" id="raw">
+        <h2><span class="section-icon">≡</span> Raw View</h2>
+        <p class="section-desc">Switch between the card view and a plain text editor.</p>
+
+        <p>Go to <strong>View → Toggle Raw View</strong> to switch the current tab from card view into a full plain-text editor showing the raw file content. A checkmark in the menu indicates raw mode is active. The fold buttons are hidden in raw mode since they have no function there.</p>
+
+        <p>While in raw view, all edits are tracked live and the Save button activates normally. Switching back to card view commits the raw content and re-parses it into cards immediately.</p>
+
+        <div class="callout callout-tip">
+            <strong>When to use raw view:</strong> Useful when you need to do a large structural edit — like adding several new regions at once — that would be awkward to do card by card. Edit the raw markers, switch back, and the new cards appear.
+        </div>
+    </div>
+    <!-- #endsegment -->
+
+    <div class="section-divider"></div>
+
+    <!-- #segment Safety -->
+    <div class="doc-section" id="safety">
+        <h2><span class="section-icon">🛡</span> Safety & File Integrity</h2>
+        <p class="section-desc">Every layer of protection Cardnager puts between you and a broken file.</p>
+
+        <p>The entire point of Cardnager is to let you apply AI-generated code changes quickly and confidently. Every feature that writes to your file is wrapped in at least one safety layer. This section lists all of them in one place.</p>
+
+        <div class="callout callout-tip">
+            <strong>Nothing writes to disk without your action.</strong> All edits happen in memory first. The file on disk only changes when you explicitly save. Every write operation is also backed by undo and a backup.
+        </div>
+
+        <h3 id="safety-paste">1 — Paste Safety Checks</h3>
+        <p>Every time you click the <strong>PASTE</strong> button on a card, Cardnager runs four checks in sequence before writing a single character:</p>
+        <ul>
+            <li><strong>Identity check.</strong> If the clipboard content is byte-for-byte identical to what is already in the block, the paste is silently skipped. No pointless overwrites, no dirty flag, no undo entry.</li>
+            <li><strong>Mismatch check.</strong> If you paste a Section into a Region slot, or raw code into a structured block, a warning dialog explains the conflict and lets you cancel before anything changes.</li>
+            <li><strong>Duplicate name check.</strong> If the incoming block shares a name with a block that already exists elsewhere in the file, a warning dialog appears. You can cancel or proceed knowingly.</li>
+            <li><strong>Hierarchy check.</strong> If the pasted block type would violate nesting rules — for example pasting a Region inside a Segment — a warning stops the operation before it starts.</li>
+        </ul>
+        <p>All four checks must pass before the block is written. If any check fails and you choose to cancel, the file is left completely unchanged.</p>
+
+        <h3 id="safety-duplicate">2 — Duplicate Name Warning Bar</h3>
+        <p>On every file open and every refresh, the entire block tree is scanned for duplicate names. If any are found, an orange warning bar appears at the top of the card list showing every duplicate name and how many times it appears. This catches naming collisions introduced by manual editing or by pasting raw content directly.</p>
+        <p>See the <a href="#duplicate-warning" style="color:var(--accent);">Duplicate Name Warning</a> section for full details.</p>
+
+        <h3 id="safety-backups">3 — Automatic Backups on Every Save</h3>
+        <p>Every time you save a file, Cardnager automatically copies the previous version to a <code>_backups</code> folder inside the same directory before writing the new content. The backup filename includes a full timestamp so you can always identify exactly when it was made.</p>
+        <p>Backups can be browsed and restored at any time via <strong>Settings → Restore Backup</strong>. A confirmation dialog appears before any restore, and the restore operation itself is pushed onto the undo stack so it can be rolled back with <span class="kbd">Ctrl+Z</span>.</p>
+
+        <h3 id="safety-undo">4 — Structural Undo Stack</h3>
+        <p>Cardnager maintains a dedicated undo history separate from native textarea undo. A full snapshot of the file content is pushed onto the stack before every major write operation:</p>
+        <ul>
+            <li>Every PASTE button action</li>
+            <li>Every Code Ops operation — Replace, Insert Before, Insert After, Remove, and all "All" variants</li>
+            <li>Every Add Block action from the ⋮ card menu</li>
+            <li>Every Delete Block action</li>
+            <li>Every Restore Backup action</li>
+        </ul>
+        <p>The stack holds up to 50 snapshots per tab. Press <span class="kbd">Ctrl+Z</span> to roll back or <span class="kbd">Ctrl+Y</span> to redo. Even if you apply ten Code Ops operations in a row, you can step back through all of them one by one.</p>
+
+        <h3 id="safety-confirmations">5 — Confirmation Dialogs</h3>
+        <p>Any action that is destructive or hard to reverse triggers a native confirmation dialog before executing. You must click <strong>Yes</strong> explicitly — these cannot be dismissed by accident:</p>
+        <ul>
+            <li><strong>Delete Block</strong> — Removes a card and all its content from the file.</li>
+            <li><strong>Paste All Content</strong> — Replaces the entire file with whatever is on the clipboard.</li>
+            <li><strong>Restore Backup</strong> — Overwrites the current editor content with a backup version.</li>
+            <li><strong>Close Tab with Unsaved Changes</strong> — Warns you before discarding changes on a dirty tab.</li>
+            <li><strong>Paste mismatch / duplicate / hierarchy violations</strong> — Each of the four paste safety checks uses its own dialog so you can cancel.</li>
+        </ul>
+
+        <h3 id="safety-unsaved">6 — Unsaved Changes Protection</h3>
+        <p>Cardnager intercepts the window close event before the app quits. If any open tab has unsaved changes, a dialog tells you how many dirty files are open and warns that closing will lose them permanently. You can cancel the close, save first, and then exit cleanly. The app will never quit silently while you have unsaved work.</p>
+
+        <div class="callout callout-info">
+            <strong>The Save button is your signal.</strong> When any tab has unsaved changes its title gains an asterisk and the Save button turns orange. A clean file shows no asterisk and a greyed-out Save button. Always check before closing.
+        </div>
+    </div>
+    <!-- #endsegment -->
+
+    <div class="section-divider"></div>
+
+    <!-- #segment Code Ops -->
+    <div class="doc-section" id="code-ops">
+        <h2><span class="section-icon">⚙</span> Code Ops</h2>
+        <p class="section-desc">Find, replace, insert, and remove code across your entire file with surgical precision.</p>
+
+        <p>Click the <strong>CODE OPS</strong> button in the toolbar to open the Code Ops panel. It operates in four modes.</p>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-card-label">⇄ Replace</div>
+                <div class="feature-card-value">Replace Mode</div>
+                <div class="feature-card-desc">Find exact code and replace it with new code. The matched lines are removed and the replacement is written in their place, preserving surrounding indentation.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-card-label">▲ Insert Before</div>
+                <div class="feature-card-value">Insert Before Mode</div>
+                <div class="feature-card-desc">Find a block of code and insert new code immediately before it without removing the original. Useful for adding imports or inserting a function before another.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-card-label">▼ Insert After</div>
+                <div class="feature-card-value">Insert After Mode</div>
+                <div class="feature-card-desc">Find a block of code and insert new code immediately after it. Useful for adding a new function after an existing one or appending lines to a block.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-card-label">✕ Remove</div>
+                <div class="feature-card-value">Remove Mode</div>
+                <div class="feature-card-desc">Find a line or block of code and delete it entirely from the file. No replacement needed — the matched lines are simply removed and the file is stitched back together.</div>
+            </div>
+        </div>
+
+        <h3>How to Use (Replace, Insert Before, Insert After)</h3>
+        <ol class="step-list">
+            <li>Select a mode from the mode bar at the top.</li>
+            <li>Paste the code you want to find into the <strong>Find This Code</strong> field.</li>
+            <li>Paste or type the replacement or insertion code into the <strong>Replace With</strong> field.</li>
+            <li>Click <strong>SCAN</strong>. The app searches the entire file and reports how many matches were found.</li>
+            <li>Use the ▲ ▼ buttons to step through each match. The preview panel shows the surrounding lines with the match highlighted in orange.</li>
+            <li>Click <strong>Replace This</strong> to apply the operation to the current match only, or <strong>Replace All</strong> to apply to every match at once. After applying, the preview updates to show the result highlighted in green.</li>
+        </ol>
+
+        <h3>How to Use (Remove)</h3>
+        <ol class="step-list">
+            <li>Select the <strong>✕ Remove</strong> mode. The second input field is hidden — you only need the Find field.</li>
+            <li>Paste the line or block of code you want to delete into the <strong>Find This Code</strong> field.</li>
+            <li>Click <strong>SCAN</strong>. Matches are found and highlighted in the preview.</li>
+            <li>Click <strong>Remove This</strong> to delete the current match, or <strong>Remove All</strong> to delete every match at once.</li>
+        </ol>
+
+        <h3>Before / After Preview</h3>
+        <p>Every time you apply an operation, the preview panel updates to show a diff-style result so you can verify the change before moving on:</p>
+        <ul>
+            <li><strong>Replace &amp; Insert modes</strong> — The newly written lines are shown highlighted in green with their new line numbers. Surrounding context lines are shown in normal colour.</li>
+            <li><strong>Remove mode</strong> — The deleted lines are shown in red with a strikethrough and a <code>−</code> marker in the gutter. The lines above and below the deletion point are shown in normal colour so you can confirm the file joined correctly.</li>
+        </ul>
+
+        <h3>Clearing the Inputs</h3>
+        <p>Each input field has a small <strong>✕</strong> button in the top-right corner. Click it to clear that field instantly so you can paste new code without having to select-all and delete manually.</p>
+        <p>The <strong>Clear All</strong> button in the top-right of the Find field header clears both fields at once and fully resets the scan state — matches, preview, and action buttons — so you are back to a clean slate in one click.</p>
+
+        <h3>Smart Matching</h3>
+        <p>Code Ops uses token-based matching, which means it ignores formatting differences like extra spaces or different indentation. It collapses all whitespace before comparing, so a match is found even if your clipboard content has slightly different spacing than what's in the file.</p>
+
+        <h3>Indentation Preservation</h3>
+        <p>When replacing or inserting, Code Ops automatically normalizes the indentation of your replacement code to match the indentation level of the target location in the file. You do not need to manually adjust tabs or spaces.</p>
+
+        <div class="callout callout-tip">
+            Code Ops is undoable. A snapshot is pushed to the undo stack before every operation.
+        </div>
+    </div>
+    <!-- #endsegment -->
+
+    <!-- #segment AI Prompts -->
+    <div class="doc-section" id="ai-prompts">
+        <h2><span class="section-icon">✦</span> AI Prompts</h2>
+        <p class="section-desc">Ready-made prompts engineered specifically for working with block-structured code.</p>
+
+        <p>Click the <strong>AI PROMPTS</strong> button in the toolbar to open the prompts panel. It contains a library of prompts you can copy and paste directly into any AI assistant.</p>
+
+        <h3>Project Types</h3>
+        <p>Select your project type from the dropdown at the top of the panel. The prompts automatically include the correct block marker syntax for that project type, so the AI will produce code that Cardnager can parse correctly.</p>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-card-label">Electron App</div>
+                <div class="feature-card-desc">JS + HTML + CSS markers. Ideal for Electron desktop apps like Cardnager itself.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-card-label">Web App</div>
+                <div class="feature-card-desc">JS + HTML + CSS markers. For browser-based projects.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-card-label">Python</div>
+                <div class="feature-card-desc">Python comment markers. For scripts and backend apps.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-card-label">Node.js</div>
+                <div class="feature-card-desc">JS markers only. For server-side JavaScript projects.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-card-label">C# Desktop</div>
+                <div class="feature-card-desc">C# markers. For .NET desktop applications.</div>
+            </div>
+        </div>
+
+        <h3>Available Prompts</h3>
+        <ul>
+            <li><strong>Getting Started: How to Use Cardnager with AI</strong> — Sets up the AI with the core collaboration rules: complete code only, touch nothing unmentioned, address blocks by name never by number, and the correct code delivery format. Also injects project-specific context such as Electron IPC details for Electron projects. Use this at the start of every new AI conversation before sending any code.</li>
+            <li><strong>Structure My Code into Blocks</strong> — Ask the AI to reorganize existing unstructured code into Cardnager block format. The AI will add the correct markers for your project type, apply proper naming rules, and preserve all existing logic without changing a single line of it.</li>
+            <li><strong>Break Down a Block into Sub-Levels</strong> — Use when a block is too large and needs to be split into nested sub-blocks. The AI inserts a new level of hierarchy inside the existing block without renaming the outer block or changing any code.</li>
+            <li><strong>Split a Block into Multiple Blocks</strong> — Use when a block should become two or more independent blocks of the same type. The AI divides the content, names each new block descriptively, places them all at the same nesting level, and preserves all existing logic.</li>
+        </ul>
+
+        <p>Click the arrow on any prompt card to expand and read the full prompt text. Click <strong>COPY</strong> to copy it to your clipboard, then paste it into your AI assistant followed by the code you want to work with.</p>
+
+        <h3>How the AI Should Deliver Code</h3>
+        <p>The Getting Started prompt instructs the AI to follow a specific delivery format depending on the size of the change. Understanding this helps you know what to expect:</p>
+
+        <ul>
+            <li><strong>Small changes</strong> — a few lines inside a large segment or section — the AI delivers a <strong>Find / Replace With</strong> pair. Copy the Find text into Code Ops' Find field, copy the Replace With text into the Replace With field, then click Scan and Replace.</li>
+            <li><strong>Large changes</strong> — most or all of a segment or section needs to be rewritten — the AI delivers the <strong>full named block</strong> directly. Copy the entire block and paste it into the correct card using the PASTE button. No Code Ops needed.</li>
+        </ul>
+
+        <div class="callout callout-info">
+            <strong>Never use position numbers.</strong> The prompt enforces that the AI always refers to blocks by their exact name (e.g. "find the section named Login Logic"), never by a number (e.g. "find section 3"). Numbers change every time a block is added or removed. Names are permanent.
+        </div>
+    </div>
+    <!-- #endsegment -->
+
+    <!-- #segment Terminal -->
+    <div class="doc-section" id="terminal">
+        <h2><span class="section-icon">>_</span> Terminal Launcher</h2>
+        <p class="section-desc">Open a terminal directly in the folder of the active file.</p>
+
+        <p>The terminal launcher sits in the top-right of the toolbar. Select a terminal type from the dropdown, then click the <strong>>_</strong> button to launch it. The terminal opens at the directory of the currently active file — no manual navigation needed.</p>
+
+        <h3>Supported Terminals</h3>
+        <ul>
+            <li><strong>PowerShell</strong> — Windows PowerShell</li>
+            <li><strong>CMD</strong> — Windows Command Prompt</li>
+            <li><strong>Git Bash</strong> — Requires Git for Windows to be installed</li>
+        </ul>
+
+        <p>Your terminal preference is saved automatically and restored on next launch. The terminal toolbar can be hidden via <strong>View → Show Terminal</strong>.</p>
+    </div>
+    <!-- #endsegment -->
+
+    <div class="section-divider"></div>
+
+    <!-- #segment Settings -->
+    <div class="doc-section" id="settings">
+        <h2><span class="section-icon">◐</span> Theme & Colors</h2>
+        <p class="section-desc">Customize the visual appearance of the app.</p>
+
+        <p>Go to <strong>Settings → Theme Colors</strong> to open the theme editor.</p>
+
+        <h3>Base Themes</h3>
+        <p>Select from three base themes using the Overall Theme dropdown. Changing the theme updates all color pickers to that theme's defaults, which you can then further customize.</p>
+        <ul>
+            <li><strong>Grey (Default)</strong> — Medium grey backgrounds. The default Cardnager look.</li>
+            <li><strong>Dark</strong> — Near-black backgrounds for very dark environments.</li>
+            <li><strong>Light</strong> — White and light grey backgrounds with softened card colors.</li>
+        </ul>
+
+        <h3>Custom Colors</h3>
+        <p>Every card type has its own color customization: badge and border color, and badge text color. You can also customize the UI text, code text, and card title text colors independently.</p>
+
+        <h3>Saving & Resetting</h3>
+        <p>Click <strong>Save Changes</strong> to apply and persist the theme. Click <strong>Reset to Defaults</strong> to restore the Grey theme. Changes take effect immediately without restarting the app.</p>
+    </div>
+    <!-- #endsegment -->
+
+    <!-- #segment Typography -->
+    <div class="doc-section" id="typography">
+        <h2><span class="section-icon">T</span> Typography</h2>
+        <p class="section-desc">Control the fonts used throughout the app.</p>
+
+        <p>Go to <strong>Settings → Typography</strong> to open the font editor. Four font slots can be set independently:</p>
+
+        <ul>
+            <li><strong>UI Font</strong> — Menus, buttons, labels, and all interface text.</li>
+            <li><strong>Code Editor Font</strong> — The font used inside all code block editors.</li>
+            <li><strong>Card Titles</strong> — The font used for block names displayed on card headers.</li>
+            <li><strong>Card Type Labels</strong> — The font used for REGION / SECTION / SEGMENT badges.</li>
+        </ul>
+
+        <h3>Zoom</h3>
+        <p>The code editor font size can be changed using zoom controls without opening the typography modal:</p>
+        <ul>
+            <li><span class="kbd">Ctrl+Plus</span> — Increase font size</li>
+            <li><span class="kbd">Ctrl+Minus</span> — Decrease font size</li>
+            <li><span class="kbd">Ctrl+0</span> — Reset to default size (12px)</li>
+        </ul>
+        <p>Zoom is also available under <strong>View → Zoom In / Zoom Out / Reset Zoom</strong>.</p>
+    </div>
+    <!-- #endsegment -->
+
+    <!-- #segment Status Bar -->
+    <div class="doc-section" id="status-bar">
+        <h2><span class="section-icon">▬</span> Status Bar</h2>
+        <p class="section-desc">Live stats for the currently active file.</p>
+
+        <p>The status bar at the bottom of the window shows five counters that update every time the file is parsed:</p>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-card-label">Regions</div>
+                <div class="feature-card-desc">Total number of top-level Region blocks in the file.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-card-label">Sections</div>
+                <div class="feature-card-desc">Total number of Section blocks across all Regions.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-card-label">Segments</div>
+                <div class="feature-card-desc">Total number of Segment blocks across all Sections.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-card-label">Fragments</div>
+                <div class="feature-card-desc">Number of unmarked code fragments auto-detected by the parser.</div>
+            </div>
+        </div>
+
+        <p>The total line count of the file is shown on the right side of the status bar.</p>
+
+        <p>The status bar can be hidden via <strong>View → Show Status Bar</strong>. Its visibility preference is saved between sessions.</p>
+    </div>
+    <!-- #endsegment -->
+
+    <div class="section-divider"></div>
+
+    <!-- #segment Shortcuts -->
+    <div class="doc-section" id="shortcuts">
+        <h2><span class="section-icon">⌨</span> Keyboard Shortcuts</h2>
+        <p class="section-desc">All available keyboard shortcuts.</p>
+
+        <table class="shortcut-table">
+            <thead>
+                <tr>
+                    <th>Action</th>
+                    <th>Shortcut</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Open File</td><td><span class="kbd">Ctrl+O</span></td></tr>
+                <tr><td>New Tab</td><td><span class="kbd">Ctrl+N</span></td></tr>
+                <tr><td>Save</td><td><span class="kbd">Ctrl+S</span></td></tr>
+                <tr><td>Save As</td><td><span class="kbd">Ctrl+Shift+S</span></td></tr>
+                <tr><td>Close Tab</td><td><span class="kbd">Ctrl+W</span></td></tr>
+                <tr><td>Exit App</td><td><span class="kbd">Alt+F4</span></td></tr>
+                <tr><td>Undo</td><td><span class="kbd">Ctrl+Z</span></td></tr>
+                <tr><td>Redo</td><td><span class="kbd">Ctrl+Y</span></td></tr>
+                <tr><td>Zoom In</td><td><span class="kbd">Ctrl++</span></td></tr>
+                <tr><td>Zoom Out</td><td><span class="kbd">Ctrl+-</span></td></tr>
+                <tr><td>Reset Zoom</td><td><span class="kbd">Ctrl+0</span></td></tr>
+                <tr><td>Close Overview</td><td><span class="kbd">Esc</span></td></tr>
+                <tr><td>Submit modal form</td><td><span class="kbd">Ctrl+Enter</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- #endsegment -->
+
+    <!-- #segment Menus -->
+    <div class="doc-section" id="menus">
+        <h2><span class="section-icon">☰</span> App Menu Reference</h2>
+        <p class="section-desc">A full list of every option in the app menu bar.</p>
+
+        <h3>File</h3>
+        <ul>
+            <li><strong>New Tab</strong> — Creates a new blank untitled tab.</li>
+            <li><strong>Open File...</strong> — Opens the file browser dialog with multi-file support.</li>
+            <li><strong>Save</strong> — Saves the active file.</li>
+            <li><strong>Save As...</strong> — Saves the active file to a new path.</li>
+            <li><strong>Save All</strong> — Saves all dirty tabs at once.</li>
+            <li><strong>Close Tab</strong> — Closes the active tab.</li>
+            <li><strong>Close All</strong> — Closes every open tab.</li>
+            <li><strong>Exit</strong> — Quits the app with unsaved-work protection.</li>
+        </ul>
+
+        <h3>Edit</h3>
+        <ul>
+            <li><strong>Undo / Redo</strong> — Structural undo/redo for the active tab.</li>
+            <li><strong>Cut / Copy / Paste / Delete</strong> — Standard edit operations routed to the last focused input.</li>
+            <li><strong>Copy All Content</strong> — Copies the entire raw file content to the clipboard.</li>
+            <li><strong>Paste All Content</strong> — Replaces the entire file with clipboard content (with confirmation).</li>
+        </ul>
+
+        <h3>View</h3>
+        <ul>
+            <li><strong>Toggle Raw View</strong> — Switches between card view and plain text editor.</li>
+            <li><strong>Show Status Bar</strong> — Toggles the bottom status bar.</li>
+            <li><strong>Show Terminal</strong> — Toggles the terminal launcher in the toolbar.</li>
+            <li><strong>Expand / Collapse All Blocks</strong> — Opens or closes every card.</li>
+            <li><strong>Zoom In / Out / Reset</strong> — Changes the code editor font size.</li>
+        </ul>
+
+        <h3>Settings</h3>
+        <ul>
+            <li><strong>Theme Colors</strong> — Opens the color customization modal.</li>
+            <li><strong>Typography</strong> — Opens the font customization modal.</li>
+            <li><strong>Restore Backup</strong> — Opens the backup browser for the active file.</li>
+            <li><strong>Show Splash Screen on Startup</strong> — Toggles whether the welcome screen appears on launch.</li>
+        </ul>
+
+        <h3>Help</h3>
+        <ul>
+            <li><strong>Open Demo File</strong> — Loads a pre-built demo file so you can explore Cardnager's features without opening your own code.</li>
+            <li><strong>Read Full Guide</strong> — Opens this documentation inside the app.</li>
+            <li><strong>Check for Updates</strong> — Checks whether a newer version of Cardnager is available.</li>
+            <li><strong>Join Discord</strong> — Opens the Cardnager Discord server in your browser.</li>
+        </ul>
+    </div>
+    <!-- #endsegment -->
+
+</main>
+<!-- #endsection -->
+
+<!-- #endregion -->
+
+<script>
+// #region Application Logic
+
+// #section Active Link Tracking
+const sections = document.querySelectorAll('.doc-section');
+const links    = document.querySelectorAll('.sidebar-link');
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const id = entry.target.id;
+            links.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + id) {
+                    link.classList.add('active');
+                }
+            });
+        }
+    });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+sections.forEach(s => observer.observe(s));
+// #endsection
+
+// #endsection
+</script>
+
+</body>
+</html>
