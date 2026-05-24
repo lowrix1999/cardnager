@@ -73,6 +73,8 @@ The same pattern applies to `#section` / `#endsection` and `#segment` / `#endseg
 
 Windows only. No installation required after setup.
 
+> **Note:** Windows may show a SmartScreen warning when running the installer. This is normal for unsigned applications. Click **"More info"** → **"Run anyway"** to proceed. The app is open source — you can review the full source code in this repository.
+
 ---
 
 ## Community
